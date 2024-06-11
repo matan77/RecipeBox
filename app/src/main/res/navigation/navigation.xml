@@ -11,7 +11,9 @@
         android:id="@+id/navigation_login"
         android:name="com.example.recipebox.ui.login.LoginFragment"
         android:label="login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+
+    </fragment>
 
 
 </navigation>

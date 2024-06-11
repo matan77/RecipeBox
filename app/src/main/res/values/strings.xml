@@ -3,4 +3,7 @@
     <string name="app_icon">app icon</string>
     <string name="recipe_box">Recipe Box</string>
     <string name="sign_in_sign_up">Sign In / Sign Up</string>
+    <string name="client_id">442654926282-qfq7kk2642n3s0dbd3sui7r308sa7q66.apps.googleusercontent.com</string>
+    <string name="NoAccount">No google account chosen</string>
+    <string name="ok">Ok</string>
 </resources>
