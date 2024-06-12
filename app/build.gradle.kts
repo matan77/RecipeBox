@@ -17,7 +17,7 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
-    buildFeatures{
+    buildFeatures {
         viewBinding = true
     }
 
@@ -37,13 +37,15 @@ android {
 }
 
 dependencies {
-    implementation ( "androidx.credentials:credentials:1.2.2")
-    implementation( "androidx.credentials:credentials-play-services-auth:1.2.2")
-    implementation ("com.google.android.libraries.identity.googleid:googleid:1.1.0")
+    implementation(libs.glide);
+
+    implementation(libs.credentials)
+    implementation(libs.credentials.play.services.auth)
+    implementation(libs.googleid)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.firestore)
     implementation(libs.firebase.auth)
-    implementation(libs.play.services.auth)
+
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.appcompat)

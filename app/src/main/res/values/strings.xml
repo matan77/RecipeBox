@@ -6,4 +6,13 @@
     <string name="client_id">442654926282-qfq7kk2642n3s0dbd3sui7r308sa7q66.apps.googleusercontent.com</string>
     <string name="NoAccount">No google account chosen</string>
     <string name="ok">Ok</string>
+    <string name="my_recipes">My Recipes</string>
+    <string name="explore">Explore</string>
+    <string name="logout">Logout</string>
+    <string name="profile_img">profile img</string>
+    <string name="hello_s">Hello, %s!</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="logo">logo</string>
+
 </resources>
