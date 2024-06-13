@@ -25,7 +25,9 @@
         <action
             android:id="@+id/action_menuFragment_to_navigation_login"
             app:destination="@id/navigation_login" />
+
     </fragment>
+
 
 
 </navigation>

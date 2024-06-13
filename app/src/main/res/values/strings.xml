@@ -11,8 +11,10 @@
     <string name="logout">Logout</string>
     <string name="profile_img">profile img</string>
     <string name="hello_s">Hello, %s!</string>
-    <string name="navigation_drawer_open">Open navigation drawer</string>
-    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="navigation_drawer_open">Open menu</string>
+    <string name="navigation_drawer_close">Close menu</string>
     <string name="logo">logo</string>
-
+    <string name="add_recipe">add recipe</string>
+    <string name="no_recipes_available">No recipes available</string>
+    <string name="recipe_image">recipe image</string>
 </resources>
