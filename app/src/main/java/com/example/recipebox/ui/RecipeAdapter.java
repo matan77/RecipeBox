@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.recipebox.R;
@@ -15,7 +16,7 @@ import com.example.recipebox.model.Recipe;
 import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
-    private List<Recipe> recipeLst;
+    private final List<Recipe> recipeLst;
 
     public RecipeAdapter(List<Recipe> recipeLst) {
         this.recipeLst = recipeLst;
@@ -34,7 +35,7 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         holder.bind(recipe);
 
         holder.itemView.setOnClickListener(v -> {
-            int i = 0;
+            Navigation.findNavController(v).navigate(R.id.action_myRecpiesFragment_to_addRecipeFragment);
 //            Bundle bundle = new Bundle();
 //            bundle.putString("recipeId", recipeLst.get(position).getId());
 //            Navigation.findNavController(v).navigate(R.id.action_listFragment_to_detailFragment, bundle);

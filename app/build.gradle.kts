@@ -37,6 +37,17 @@ android {
 }
 
 dependencies {
+    val camerax_version = "1.3.4";
+    implementation("androidx.camera:camera-core:${camerax_version}")
+    implementation("androidx.camera:camera-camera2:${camerax_version}")
+    implementation("androidx.camera:camera-lifecycle:${camerax_version}")
+
+    implementation("androidx.camera:camera-view:${camerax_version}")
+    implementation("androidx.camera:camera-extensions:${camerax_version}")
+
+    implementation("com.google.guava:guava:32.0.1-android")
+
+
     implementation(libs.glide);
 
     implementation(libs.credentials)
@@ -54,6 +65,7 @@ dependencies {
     implementation(libs.constraintlayout)
     implementation(libs.lifecycle.livedata.ktx)
     implementation(libs.lifecycle.viewmodel.ktx)
+    implementation(libs.legacy.support.v4)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
