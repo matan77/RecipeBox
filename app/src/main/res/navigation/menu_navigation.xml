@@ -18,9 +18,15 @@
         android:id="@+id/addRecipeFragment"
         android:name="com.example.recipebox.ui.menu.addRecipe.AddRecipeFragment"
         android:label="fragment_my_recpies"
-        tools:layout="@layout/fragment_add_recipe" >
+        tools:layout="@layout/fragment_add_recipe">
         <action
             android:id="@+id/action_addRecipeFragment_to_myRecpiesFragment"
             app:destination="@id/myRecpiesFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/exploreFragment"
+        android:name="com.example.recipebox.ui.menu.ExploreFragment"
+        android:label="fragment_my_recpies"
+        tools:layout="@layout/fragment_explore"/>
+
 </navigation>

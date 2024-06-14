@@ -94,7 +94,7 @@ public class MenuFragment extends Fragment {
                 menuNavController.navigate(R.id.myRecpiesFragment);
             } else if (itemId == R.id.nav_explore) {
                 binding.headerTextView.setText(R.string.explore);
-                menuNavController.navigate(R.id.myRecpiesFragment);
+                menuNavController.navigate(R.id.exploreFragment);
             } else if (itemId == R.id.nav_logout) {
                 FirebaseAuth.getInstance().signOut();
                 NavController navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment);
