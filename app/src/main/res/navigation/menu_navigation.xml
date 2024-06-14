@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/addRecipeFragment"
-        android:name="com.example.recipebox.ui.menu.addRecipe.AddRecipeFragment"
+        android:name="com.example.recipebox.ui.menu.AddRecipe.AddRecipeFragment"
         android:label="fragment_my_recpies"
         tools:layout="@layout/fragment_add_recipe">
         <action
@@ -27,6 +27,11 @@
         android:id="@+id/exploreFragment"
         android:name="com.example.recipebox.ui.menu.ExploreFragment"
         android:label="fragment_my_recpies"
-        tools:layout="@layout/fragment_explore"/>
+        tools:layout="@layout/fragment_explore" />
+    <fragment
+        android:id="@+id/recpieFragment"
+        android:name="com.example.recipebox.ui.RecipeFragment"
+        android:label="fragment_my_recpies"
+        tools:layout="@layout/fragment_recipe" />
 
 </navigation>

@@ -1,5 +1,11 @@
 package com.example.recipebox.ui;
 
+import static com.example.recipebox.ui.RecipeFragment.ARG_RECIPE;
+
+import android.os.Bundle;
+import android.view.View;
+
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 
@@ -24,5 +30,7 @@ public class RecipeViewHolder extends RecyclerView.ViewHolder {
                 .placeholder(R.drawable.recipe)
                 .fallback(R.drawable.recipe)
                 .into(binding.imgRecipe);
+
+
     }
 }

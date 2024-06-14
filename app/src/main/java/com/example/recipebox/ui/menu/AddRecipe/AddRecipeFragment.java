@@ -1,4 +1,4 @@
-package com.example.recipebox.ui.menu.addRecipe;
+package com.example.recipebox.ui.menu.AddRecipe;
 
 import com.example.recipebox.R;
 
@@ -35,7 +35,6 @@ import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 
-import android.view.MenuItem;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,6 @@ import android.widget.Toast;
 import com.example.recipebox.databinding.FragmentAddRecipeBinding;
 
 import com.example.recipebox.model.Recipe;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.transition.MaterialFadeThrough;
 
@@ -64,6 +62,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
 
 public class AddRecipeFragment extends Fragment {
 
@@ -94,10 +93,9 @@ public class AddRecipeFragment extends Fragment {
     private ImageCapture imageCapture;
     // for permission
     private final ActivityResultLauncher<String> requestPermissionLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-        if (!isGranted) {
-            binding.btnCap.setEnabled(false);
-        }
+        isCamPermission = isGranted;
     });
+    private boolean isCamPermission;
     private FirebaseFirestore db;
     private FirebaseStorage storage;
 
@@ -106,9 +104,6 @@ public class AddRecipeFragment extends Fragment {
         return requestPermissionLauncher;
     }
 
-    public Button getBtnCap() {
-        return binding.btnCap;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -120,6 +115,7 @@ public class AddRecipeFragment extends Fragment {
         storage = FirebaseStorage.getInstance();
         imageCapture = null;
         cameraProviderFuture = ProcessCameraProvider.getInstance(requireContext());
+        isCamPermission = false;
     }
 
 
@@ -142,33 +138,7 @@ public class AddRecipeFragment extends Fragment {
 
 
         // create a recipe
-        binding.btnSave.setOnClickListener(v -> {
-
-            String title = binding.etTitle.getText().toString().trim();
-            String description = binding.etDescription.getText().toString().trim();
-
-            List<String> ingredients = Arrays.asList(binding.etIngredients.getText().toString().split(","));
-            List<String> instructions = Arrays.asList(binding.etInstructions.getText().toString().split("\n"));
-
-            if (title.isEmpty() || description.isEmpty() || ingredients.isEmpty() || instructions.isEmpty()) {
-                Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Recipe recipe = new Recipe(title, description, ingredients, instructions, FirebaseAuth.getInstance().getUid());
-
-            Context context = requireContext();
-            DocumentReference ref = db.collection("recipes").document();
-            setImageUrl(ref.getId(), recipe.getCreator(), recipe);
-            ref.set(recipe)
-                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void aVoid) {
-                            Toast.makeText(context, "Recipe saved successfully", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-            Navigation.findNavController(binding.getRoot()).navigateUp();
-        });
+        binding.btnSave.setOnClickListener(addRecipe);
 
 
         binding.btnUpload.setOnClickListener(v ->
@@ -188,14 +158,51 @@ public class AddRecipeFragment extends Fragment {
         return binding.getRoot();
     }
 
-    // Upload image to Firebase Storage
-    private void setImageUrl(String id, String userId, Recipe recipe) {
-        if (recipeImg == null) {
+    private final View.OnClickListener addRecipe = v -> {
+        binding.btnSave.setEnabled(false);
+        String title = binding.etTitle.getText().toString().trim();
+        String description = binding.etDescription.getText().toString().trim();
+
+        List<String> ingredients = Arrays.stream(binding.etIngredients.getText().toString().split(","))
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        List<String> instructions = Arrays.stream(binding.etInstructions.getText().toString().split("\n"))
+                .map(String::trim)
+                .collect(Collectors.toList());
+
+        if (title.isEmpty() || description.isEmpty() ||
+                binding.etIngredients.getText().toString().isEmpty() || binding.etInstructions.getText().toString().isEmpty()) {
+            Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
         }
+        Recipe recipe = new Recipe(title, description, ingredients, instructions, FirebaseAuth.getInstance().getUid());
         Context context = requireContext();
+        DocumentReference ref = db.collection("recipes").document();
+        if (recipeImg == null) {
+            ref.set(recipe)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(context, "Recipe saved successfully", Toast.LENGTH_SHORT).show();
+                            Navigation.findNavController(binding.getRoot()).navigateUp();
+                        }
+                    });
+        } else {
+            setImageUrl(ref, recipe);
+        }
+
+
+    };
+
+    // Upload image to Firebase Storage
+    private void setImageUrl(DocumentReference ref, Recipe recipe) {
+        Context context = requireContext();
+
+        String id = ref.getId();
+
         StorageReference storageRef = storage.getReference();
-        StorageReference imageRef = storageRef.child("uploads/" + userId + "/" + id + ".jpg");
+        StorageReference imageRef = storageRef.child("uploads/" + recipe.getCreator() + "/" + id + ".jpg");
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         recipeImg.compress(Bitmap.CompressFormat.JPEG, 100, baos);
@@ -206,6 +213,14 @@ public class AddRecipeFragment extends Fragment {
             // Image uploaded successfully, now get download URL
             imageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                 recipe.setImageUrl(uri.toString());
+                ref.set(recipe)
+                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void aVoid) {
+                                Toast.makeText(context, "Recipe saved successfully", Toast.LENGTH_SHORT).show();
+                                Navigation.findNavController(binding.getRoot()).navigateUp();
+                            }
+                        });
             });
         }).addOnFailureListener(e -> {
             Toast.makeText(context, "Error uploading image", Toast.LENGTH_SHORT).show();
@@ -214,7 +229,10 @@ public class AddRecipeFragment extends Fragment {
     }
 
     private final View.OnClickListener takeImage = v -> {
-
+        requestCam();
+        if (!isCamPermission) {
+            return;
+        }
         if (imageCapture == null) {
 
             cameraProviderFuture.addListener(() -> {
@@ -284,7 +302,9 @@ public class AddRecipeFragment extends Fragment {
             cameraDialog.show(getChildFragmentManager(), CameraDialog.TAG);
 
         } else {
-            binding.btnCap.setEnabled(false);
+            CameraDialog cameraDialog = new CameraDialog();
+            cameraDialog.show(getChildFragmentManager(), CameraDialog.TAG);
+
         }
     }
 

@@ -1,4 +1,4 @@
-package com.example.recipebox.ui.menu.addRecipe;
+package com.example.recipebox.ui.menu.AddRecipe;
 
 
 import android.Manifest;
@@ -6,7 +6,6 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 
-import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -36,11 +35,7 @@ public class CameraDialog extends DialogFragment {
                     dialog.dismiss();
                 })
                 .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
-                    if (fragment != null) {
-                        fragment.getBtnCap().setEnabled(false);
-                    }
                     dialog.cancel();
-
                 })
                 .create();
 

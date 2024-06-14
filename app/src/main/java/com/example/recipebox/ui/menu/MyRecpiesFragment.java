@@ -3,6 +3,7 @@ package com.example.recipebox.ui.menu;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
@@ -52,7 +53,7 @@ public class MyRecpiesFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentMyRecpiesBinding.inflate(inflater, container, false);
         recipeLst = new ArrayList<>();
-        adapter = new RecipeAdapter(recipeLst);
+
         db = FirebaseFirestore.getInstance();
         uid = FirebaseAuth.getInstance().getUid();
 
@@ -60,9 +61,6 @@ public class MyRecpiesFragment extends Fragment {
         RecyclerView rvRecipes = binding.rvRecipes;
 
         rvRecipes.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
-        rvRecipes.setAdapter(adapter);
-
-        loadRecipes();
 
 
         rvRecipes.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -82,6 +80,14 @@ public class MyRecpiesFragment extends Fragment {
         });
 
         return binding.getRoot();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        adapter = new RecipeAdapter(recipeLst, Navigation.findNavController(requireActivity(), R.id.fragment_container));
+        binding.rvRecipes.setAdapter(adapter);
+        loadRecipes();
     }
 
     private void loadRecipes() {

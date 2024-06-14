@@ -1,13 +1,14 @@
 package com.example.recipebox.model;
 
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.Exclude;
 
-public class Recipe {
+public class Recipe implements Serializable {
     @Exclude
     private String id;
     private String title;

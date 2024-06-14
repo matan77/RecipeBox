@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.example.recipebox.R;
 import com.example.recipebox.databinding.FragmentExploreBinding;
 
 import com.example.recipebox.model.Recipe;
@@ -49,7 +51,7 @@ public class ExploreFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentExploreBinding.inflate(inflater, container, false);
         recipeLst = new ArrayList<>();
-        adapter = new RecipeAdapter(recipeLst);
+        adapter = new RecipeAdapter(recipeLst, Navigation.findNavController(requireActivity(), R.id.fragment_container));
         db = FirebaseFirestore.getInstance();
         uid = FirebaseAuth.getInstance().getUid();
 

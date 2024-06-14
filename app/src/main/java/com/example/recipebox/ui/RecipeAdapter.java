@@ -1,11 +1,14 @@
 package com.example.recipebox.ui;
 
+import static com.example.recipebox.ui.RecipeFragment.ARG_RECIPE;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -17,15 +20,19 @@ import java.util.List;
 
 public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
     private final List<Recipe> recipeLst;
+    private final NavController navController;
+    
 
-    public RecipeAdapter(List<Recipe> recipeLst) {
+    public RecipeAdapter(List<Recipe> recipeLst, NavController navController) {
         this.recipeLst = recipeLst;
+        this.navController = navController;
     }
 
     @NonNull
     @Override
     public RecipeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRecipeBinding binding = ItemRecipeBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
         return new RecipeViewHolder(binding);
     }
 
@@ -35,11 +42,13 @@ public class RecipeAdapter extends RecyclerView.Adapter<RecipeViewHolder> {
         holder.bind(recipe);
 
         holder.itemView.setOnClickListener(v -> {
-            Navigation.findNavController(v).navigate(R.id.action_myRecpiesFragment_to_addRecipeFragment);
-//            Bundle bundle = new Bundle();
-//            bundle.putString("recipeId", recipeLst.get(position).getId());
-//            Navigation.findNavController(v).navigate(R.id.action_listFragment_to_detailFragment, bundle);
+
+            Bundle args = new Bundle();
+            args.putSerializable(ARG_RECIPE, recipe);
+            navController.navigate(R.id.recpieFragment, args);
+
         });
+
     }
 
     @Override
