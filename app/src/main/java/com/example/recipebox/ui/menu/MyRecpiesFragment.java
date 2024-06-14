@@ -3,6 +3,7 @@ package com.example.recipebox.ui.menu;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -77,7 +78,7 @@ public class MyRecpiesFragment extends Fragment {
 
         binding.btnAdd.setOnClickListener(v -> {
             Navigation.findNavController(binding.getRoot()).navigate(R.id.addRecipeFragment);
-            
+
         });
 
         return binding.getRoot();

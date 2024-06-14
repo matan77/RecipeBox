@@ -15,24 +15,35 @@ import com.example.recipebox.R;
 
 public class CameraDialog extends DialogFragment {
     public static String TAG = "CameraDialog";
-    private final ActivityResultLauncher<String> requestPermissionLauncher;
 
-    public CameraDialog(ActivityResultLauncher<String> requestPermissionLauncher) {
-        this.requestPermissionLauncher = requestPermissionLauncher;
+    public CameraDialog() {
+
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
+        AddRecipeFragment fragment = (AddRecipeFragment) getParentFragment();
+        setCancelable(false);
         return new AlertDialog.Builder(requireContext())
                 .setMessage("Use your camera to take a photo of the food")
                 .setPositiveButton(getString(R.string.ok), (dialog, which) -> {
-                    requestPermissionLauncher.launch(Manifest.permission.CAMERA);
-                })
-                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
+
+
+                    if (fragment != null) {
+                        fragment.getRequestPermissionLauncher().launch(Manifest.permission.CAMERA);
+                    }
                     dialog.dismiss();
                 })
+                .setNegativeButton(getString(R.string.cancel), (dialog, which) -> {
+                    if (fragment != null) {
+                        fragment.getBtnCap().setEnabled(false);
+                    }
+                    dialog.cancel();
+
+                })
                 .create();
+
     }
 
 

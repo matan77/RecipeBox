@@ -1,11 +1,14 @@
 package com.example.recipebox.model;
 
 
+import java.util.Date;
 import java.util.List;
 
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.Exclude;
 
 public class Recipe {
+    @Exclude
     private String id;
     private String title;
     private String description;
@@ -18,10 +21,22 @@ public class Recipe {
     public Recipe() {
     }
 
+    public Recipe(String title, String description, List<String> ingredients, List<String> instructions, String creator) {
+        this.title = title;
+        this.imageUrl = "";
+        this.description = description;
+        this.ingredients = ingredients;
+        this.instructions = instructions;
+        this.creator = creator;
+        createdAt = new Timestamp(new Date());
+    }
+
+    @Exclude
     public String getId() {
         return id;
     }
 
+    @Exclude
     public void setId(String id) {
         this.id = id;
     }

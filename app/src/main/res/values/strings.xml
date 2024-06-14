@@ -18,5 +18,10 @@
     <string name="no_recipes_available">No recipes available</string>
     <string name="recipe_image">recipe image</string>
     <string name="cancel">Cancel</string>
-    <string name="take_an_image">again to take image</string>
+    <string name="take_an_image">take image</string>
+    <string name="ingredients_comma_separated">Ingredients (comma separated)</string>
+    <string name="description">Description</string>
+    <string name="title">Title</string>
+    <string name="save">add</string>
+    <string name="instructions">Instructions (each step on a new line)</string>
 </resources>
