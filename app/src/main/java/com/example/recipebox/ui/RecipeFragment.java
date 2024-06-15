@@ -68,7 +68,7 @@ public class RecipeFragment extends Fragment {
         binding = FragmentRecipeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
 
-        binding.topAppBar.setOnClickListener(v -> {
+        binding.topAppBar.setNavigationOnClickListener(v -> {
             Navigation.findNavController(binding.getRoot()).navigateUp();
         });
         requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {

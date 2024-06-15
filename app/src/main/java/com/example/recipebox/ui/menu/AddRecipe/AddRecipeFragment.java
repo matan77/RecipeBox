@@ -125,7 +125,7 @@ public class AddRecipeFragment extends Fragment {
         binding.btnCap.shrink();
         binding.btnCap.setOnClickListener(takeImage);
 
-        binding.topAppBar.setOnClickListener(v -> {
+        binding.topAppBar.setNavigationOnClickListener(v -> {
             Navigation.findNavController(binding.getRoot()).navigateUp();
         });
         requireActivity().getOnBackPressedDispatcher().addCallback(new OnBackPressedCallback(true) {
