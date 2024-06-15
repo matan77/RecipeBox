@@ -67,8 +67,6 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRecipeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-        binding.rvInstructions.setNestedScrollingEnabled(false);
-        binding.rvIngredients.setNestedScrollingEnabled(false);
 
         binding.topAppBar.setOnClickListener(v -> {
             Navigation.findNavController(binding.getRoot()).navigateUp();
@@ -94,10 +92,7 @@ public class RecipeFragment extends Fragment {
 
             binding.rvIngredients.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext(),
                     LinearLayoutManager.HORIZONTAL, false));
-            //
-            binding.rvIngredients.setLayoutManager(new GridLayoutManager(binding.getRoot().getContext(), 2,
-                    GridLayoutManager.HORIZONTAL, false));
-            //
+
             binding.rvIngredients.setAdapter(new ChipAdapter(recipe.getIngredients()));
 
 

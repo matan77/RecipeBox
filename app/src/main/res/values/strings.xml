@@ -24,6 +24,6 @@
     <string name="title">Title</string>
     <string name="save">add</string>
     <string name="instructions">Instructions (each step on a new line)</string>
-    <string name="ingredients">Ingredients</string>
+    <string name="ingredients">Ingredients:</string>
     <string name="instructions_tv">Instructions</string>
 </resources>
