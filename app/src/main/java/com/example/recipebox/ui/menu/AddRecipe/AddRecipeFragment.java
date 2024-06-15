@@ -159,7 +159,7 @@ public class AddRecipeFragment extends Fragment {
     }
 
     private final View.OnClickListener addRecipe = v -> {
-        binding.btnSave.setEnabled(false);
+
         String title = binding.etTitle.getText().toString().trim();
         String description = binding.etDescription.getText().toString().trim();
 
@@ -176,6 +176,7 @@ public class AddRecipeFragment extends Fragment {
             Toast.makeText(requireContext(), "Please fill out all fields", Toast.LENGTH_SHORT).show();
             return;
         }
+        binding.btnSave.setEnabled(false);
         Recipe recipe = new Recipe(title, description, ingredients, instructions, FirebaseAuth.getInstance().getUid());
         Context context = requireContext();
         DocumentReference ref = db.collection("recipes").document();
@@ -296,7 +297,7 @@ public class AddRecipeFragment extends Fragment {
     // request camera permissions
     private void requestCam() {
         if (ContextCompat.checkSelfPermission(binding.getRoot().getContext(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            return;
+            isCamPermission = true;
         } else if (ActivityCompat.shouldShowRequestPermissionRationale(requireActivity(), Manifest.permission.CAMERA)) {
             CameraDialog cameraDialog = new CameraDialog();
             cameraDialog.show(getChildFragmentManager(), CameraDialog.TAG);

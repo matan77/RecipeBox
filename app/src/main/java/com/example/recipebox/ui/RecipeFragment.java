@@ -12,11 +12,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.example.recipebox.R;
 import com.example.recipebox.databinding.FragmentRecipeBinding;
 import com.example.recipebox.model.Recipe;
+import com.example.recipebox.ui.menu.ChipList.ChipAdapter;
 import com.google.android.material.transition.MaterialFadeThrough;
 
 
@@ -64,7 +67,8 @@ public class RecipeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentRecipeBinding.inflate(inflater, container, false);
         View view = binding.getRoot();
-
+        binding.rvInstructions.setNestedScrollingEnabled(false);
+        binding.rvIngredients.setNestedScrollingEnabled(false);
 
         binding.topAppBar.setOnClickListener(v -> {
             Navigation.findNavController(binding.getRoot()).navigateUp();
@@ -78,29 +82,33 @@ public class RecipeFragment extends Fragment {
         });
 
 
-        // Bind data to views
         if (recipe != null) {
-            // Load image using Glide or any other image loading library
+
             Glide.with(requireContext())
                     .load(recipe.getImageUrl()).placeholder(R.drawable.recipe).fallback(R.drawable.recipe)
                     .into(binding.imgRecipe);
 
             binding.topAppBar.setTitle(recipe.getTitle());
-            binding.recipeDescription.setText(recipe.getDescription());
-            binding.recipeIngredients.setText(formatList(recipe.getIngredients()));
-            binding.recipeInstructions.setText(formatList(recipe.getInstructions()));
+            binding.tvDescription.setText(recipe.getDescription());
+
+
+            binding.rvIngredients.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext(),
+                    LinearLayoutManager.HORIZONTAL, false));
+            //
+            binding.rvIngredients.setLayoutManager(new GridLayoutManager(binding.getRoot().getContext(), 2,
+                    GridLayoutManager.HORIZONTAL, false));
+            //
+            binding.rvIngredients.setAdapter(new ChipAdapter(recipe.getIngredients()));
+
+
+            binding.rvInstructions.setLayoutManager(new LinearLayoutManager(binding.getRoot().getContext()));
+            binding.rvInstructions.setAdapter(new ChipAdapter(recipe.getInstructions(), true));
+
+
         }
 
         return view;
     }
 
 
-    // Helper method to format list items as a string
-    private String formatList(List<String> items) {
-        StringBuilder builder = new StringBuilder();
-        for (String item : items) {
-            builder.append("\u2022 ").append(item).append("\n");
-        }
-        return builder.toString();
-    }
 }

@@ -29,6 +29,7 @@
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:navigationIcon="@drawable/arrow_back"
+                app:navigationIconTint="?attr/colorOnSurface"
                 app:title="@string/add_recipe"
                 app:titleTextAppearance="@style/TextAppearance.AppCompat.Headline" />
         </com.google.android.material.appbar.AppBarLayout>
