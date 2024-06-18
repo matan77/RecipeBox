@@ -142,8 +142,17 @@ public class AddRecipeFragment extends Fragment {
 
 
         binding.btnUpload.setOnClickListener(v ->
-
         {
+            if (imageCapture != null){
+                // stop camera if working
+                try {
+                    cameraProviderFuture.get().unbindAll();
+                } catch (Exception ignored) {
+                }
+                binding.camView.setVisibility(View.INVISIBLE);
+                binding.btnCap.shrink();
+                imageCapture = null;
+            }
             pickMedia.launch(new PickVisualMediaRequest.Builder().setMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.INSTANCE).build());
         });
 
@@ -258,7 +267,6 @@ public class AddRecipeFragment extends Fragment {
                 }
             }, requireContext().getMainExecutor());
         }
-
         if (imageCapture != null)
 
             imageCapture.takePicture(ContextCompat.getMainExecutor(requireActivity()), new ImageCapture.OnImageCapturedCallback() {
